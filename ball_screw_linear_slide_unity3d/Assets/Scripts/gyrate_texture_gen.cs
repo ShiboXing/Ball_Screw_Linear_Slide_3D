@@ -10,18 +10,19 @@ public class build_gyrate_texture : MonoBehaviour
 {
     public RawImage raw_img;
     public float rot_speed = 50f;
+    public float max_bound = 0f;
+
     private Camera cam;
     // Start is called before the first frame update
     void Start()
     {
         gameObject.layer = LayerMask.NameToLayer("UI cam");
-        var size = gameObject.GetComponent<MeshFilter>().mesh.bounds.size;
-        var width = Mathf.Max(size.x, size.y, size.z) * 100 * 1.2f;
+        apply_layer_mask_all(gameObject.layer, gameObject);
         var texture = new RenderTexture(255, 255, 0);
 
         var cam_obj = new GameObject("Main Camera");
         cam = cam_obj.AddComponent<Camera>();
-        cam.transform.position = gameObject.transform.position + Vector3.forward * Mathf.Max(width, 5);
+        cam.transform.position = gameObject.transform.position + Vector3.forward * max_bound;
         cam.transform.LookAt(gameObject.transform);
         cam.cullingMask = 1 << gameObject.layer;
         cam.clearFlags = CameraClearFlags.SolidColor;
@@ -38,5 +39,15 @@ public class build_gyrate_texture : MonoBehaviour
     {
         gameObject.transform.Rotate(0, Time.deltaTime * rot_speed, 0);
         cam.Render();
+    } 
+
+    void apply_layer_mask_all(LayerMask mask, GameObject obj)
+    {
+        obj.layer = mask;
+        
+        foreach (Transform child in obj.transform)
+        {
+            apply_layer_mask_all(mask, child.gameObject);
+        }
     }
 }
