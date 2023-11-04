@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Reflection;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -11,20 +13,31 @@ public class item_menu_manager : MonoBehaviour
     public List<GameObject> objs;
     public Transform parentTransform;
     public MonoScript texture_script;
+    public float toggle_speed = 10f;
+    public float margin = 20;
 
     private List<RawImage> imgs;
+    private float item_width;
+
+    // animation
+    private bool moving = false;
+    private bool moving_left = false;
+    private float shift_amt;
+
     // Start is called before the first frame update
     void Start()
     {
+        // UI coords
         imgs = new List<RawImage>();
         float x_offset = 0;
+        float img_x_offset = 0;
+        Rect menu_rect = gameObject.GetComponent<RectTransform>().rect;
+        float item_height = menu_rect.height - margin;
+        item_width = menu_rect.width / 15f - margin;
+
+        // build menu images
         for (int i=0; i<objs.Count; i++) 
         {
-            // wrap the obj (centering the rotational pivot) 
-            //var obj_wrap = new GameObject("obj_wrap_" + i);
-            //objs[i].transform.parent = obj_wrap.transform;
-            //objs[i] = obj_wrap;
-
             // construct the raw image
             var inner_im = new GameObject("raw_im");
             inner_im.transform.SetParent(gameObject.transform);
@@ -32,7 +45,9 @@ public class item_menu_manager : MonoBehaviour
             Texture2D text = Texture2D.whiteTexture;
             im.texture = text;
             RectTransform rect_t= inner_im.GetComponent<RectTransform>();
-            rect_t.localPosition = Vector3.right * i * 110;
+            rect_t.localPosition = Vector3.right * img_x_offset;
+            img_x_offset += item_width + margin;
+            rect_t.sizeDelta = new Vector2(item_width, item_height);
 
             // get the width of the obj
             var max_bound = Mathf.Max(5f, find_max_bound(objs[i]));
@@ -41,7 +56,6 @@ public class item_menu_manager : MonoBehaviour
             x_offset += max_bound / 2;
             objs[i].transform.position = new Vector3(x_offset, 100 + (i & 1) * 100, 0);
             x_offset += max_bound / 2;
-
 
             // attach the texture script to game object
             var script = objs[i].AddComponent(texture_script.GetClass());
@@ -59,7 +73,26 @@ public class item_menu_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!moving && Input.GetKeyDown(KeyCode.E))
+        {
+            shift_amt = item_width + margin;
+            moving = true;
+            moving_left = false;
+        } 
+        else if (!moving && Input.GetKeyDown(KeyCode.Q))
+        {
 
+            shift_amt = item_width + margin;
+            moving = true;
+            moving_left = true;
+        }
+        if (moving)
+        {
+            Vector3 offset = Vector3.right * Mathf.Min(toggle_speed, shift_amt);
+            gameObject.transform.localPosition += moving_left ? -offset : offset;
+            shift_amt -= offset.x;
+            if (shift_amt <= 0) moving = false;
+        }
     }
 
     // dfs to find mesh filter in a 3d object
