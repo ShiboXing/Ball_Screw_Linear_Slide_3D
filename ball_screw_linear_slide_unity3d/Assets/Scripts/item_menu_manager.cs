@@ -13,6 +13,7 @@ public class item_menu_manager : MonoBehaviour
     public List<GameObject> objs;
     public Transform parentTransform;
     public MonoScript texture_script;
+    public MonoScript drag_script;
     public float toggle_speed = 10f;
     public float margin = 20;
 
@@ -31,9 +32,10 @@ public class item_menu_manager : MonoBehaviour
         imgs = new List<RawImage>();
         float x_offset = 0;
         float img_x_offset = 0;
-        Rect menu_rect = gameObject.GetComponent<RectTransform>().rect;
-        float item_height = menu_rect.height - margin;
-        item_width = menu_rect.width / 15f - margin;
+        var menu_rect = gameObject.GetComponent<RectTransform>();
+        float item_height = menu_rect.rect.height - margin;
+        item_width = menu_rect.rect.width / 15f - margin;
+        menu_rect.sizeDelta= new Vector2(item_width * 100, menu_rect.sizeDelta.y); // make it enough for 100 items
 
         // build menu images
         for (int i=0; i<objs.Count; i++) 
@@ -48,6 +50,12 @@ public class item_menu_manager : MonoBehaviour
             rect_t.localPosition = Vector3.right * img_x_offset;
             img_x_offset += item_width + margin;
             rect_t.sizeDelta = new Vector2(item_width, item_height);
+
+            // Attach the 3d obj under the raw image for drag - and - drop instantiating
+           var real_obj = Instantiate(objs[i]);
+           real_obj.transform.SetParent(im.transform, false);
+           real_obj.name = "real_obj";
+           im.gameObject.AddComponent(drag_script.GetClass());
 
             // get the width of the obj
             var max_bound = Mathf.Max(5f, find_max_bound(objs[i]));
@@ -81,7 +89,6 @@ public class item_menu_manager : MonoBehaviour
         } 
         else if (!moving && Input.GetKeyDown(KeyCode.Q))
         {
-
             shift_amt = item_width + margin;
             moving = true;
             moving_left = true;

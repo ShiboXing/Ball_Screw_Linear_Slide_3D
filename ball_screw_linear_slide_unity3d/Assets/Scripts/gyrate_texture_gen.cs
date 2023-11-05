@@ -22,6 +22,7 @@ public class build_gyrate_texture : MonoBehaviour
 
         var cam_obj = new GameObject("Main Camera");
         cam = cam_obj.AddComponent<Camera>();
+        //cam.transform.SetParent(gameObject.transform, false);
         cam.transform.position = gameObject.transform.position + Vector3.forward * max_bound;
         cam.transform.LookAt(gameObject.transform);
         cam.cullingMask = 1 << gameObject.layer;
