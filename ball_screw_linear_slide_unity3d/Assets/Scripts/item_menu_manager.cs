@@ -52,10 +52,10 @@ public class item_menu_manager : MonoBehaviour
             rect_t.sizeDelta = new Vector2(item_width, item_height);
 
             // Attach the 3d obj under the raw image for drag - and - drop instantiating
-           var real_obj = Instantiate(objs[i]);
-           real_obj.transform.SetParent(im.transform, false);
-           real_obj.name = "real_obj";
-           im.gameObject.AddComponent(drag_script.GetClass());
+            var real_obj = Instantiate(objs[i]);
+            real_obj.transform.SetParent(im.transform, false);
+            real_obj.name = "real_obj";
+            im.gameObject.AddComponent(drag_script.GetClass());
 
             // get the width of the obj
             var max_bound = Mathf.Max(5f, find_max_bound(objs[i]));
