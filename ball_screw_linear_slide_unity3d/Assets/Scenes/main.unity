@@ -1980,9 +1980,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.837}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 34.8542, y: 0.46402}
+  m_AnchoredPosition: {x: 35.105957, y: -0.46395874}
   m_SizeDelta: {x: 3.1458, y: 0.92799}
-  m_Pivot: {x: 0.000000007450581, y: 0.5000002}
+  m_Pivot: {x: 0.033698954, y: 0.5000002}
 --- !u!114 &972255650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3137,7 +3137,7 @@ GameObject:
   - component: {fileID: 2049438268}
   - component: {fileID: 2049438267}
   - component: {fileID: 2049438266}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
