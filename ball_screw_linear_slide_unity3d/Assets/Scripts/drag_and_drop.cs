@@ -14,7 +14,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     private Vector3 init_pos;
     private Transform new_obj;
@@ -27,14 +27,14 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         new_obj.SetParent(null);
         new_obj.transform.localScale = Vector3.one * 100;
         new_obj.gameObject.layer = LayerMask.NameToLayer("on_drag");
-        //drag_mask = 1 << new_obj.gameObject.layer;
+        drag_mask = 1 << new_obj.gameObject.layer;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~drag_mask))
         {
             new_obj.transform.position = hit.point;
             transform.position = init_pos;
