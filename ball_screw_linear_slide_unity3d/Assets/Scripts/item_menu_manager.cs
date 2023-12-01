@@ -47,9 +47,19 @@ public class item_menu_manager : MonoBehaviour
             Texture2D text = Texture2D.whiteTexture;
             im.texture = text;
             RectTransform rect_t= inner_im.GetComponent<RectTransform>();
-            rect_t.localPosition = Vector3.right * img_x_offset;
+            rect_t.localPosition = new Vector3(img_x_offset, item_height / 4, 0);
             img_x_offset += item_width + margin;
             rect_t.sizeDelta = new Vector2(item_width, item_height);
+
+            // add object name label beneath the image
+            var label_obj = new GameObject("label_obj");
+            label_obj.transform.SetParent(gameObject.transform);
+            var label_im = label_obj.AddComponent<RawImage>();
+            label_im.texture = Texture2D.whiteTexture;
+            RectTransform label_rect = label_im.GetComponent<RectTransform>();
+            label_rect.localPosition = new Vector3(img_x_offset, -item_height / 4, 0);
+            label_rect.sizeDelta = new Vector2(item_width, item_height / 4);
+            var name = objs[i].name;
 
             // Attach the 3d obj under the raw image for drag - and - drop instantiating
             var real_obj = Instantiate(objs[i]);
