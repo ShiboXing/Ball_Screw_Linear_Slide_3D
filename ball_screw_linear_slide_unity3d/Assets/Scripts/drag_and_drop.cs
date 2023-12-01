@@ -59,5 +59,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         transform.position = init_pos;
+        if (new_obj.transform.position == Vector3.zero)
+            Destroy(new_obj.gameObject);
     }
 }
