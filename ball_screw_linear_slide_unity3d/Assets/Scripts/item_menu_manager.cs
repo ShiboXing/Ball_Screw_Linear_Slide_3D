@@ -48,18 +48,22 @@ public class item_menu_manager : MonoBehaviour
             im.texture = text;
             RectTransform rect_t= inner_im.GetComponent<RectTransform>();
             rect_t.localPosition = new Vector3(img_x_offset, item_height / 4, 0);
-            img_x_offset += item_width + margin;
             rect_t.sizeDelta = new Vector2(item_width, item_height);
 
             // add object name label beneath the image
-            var label_obj = new GameObject("label_obj");
-            label_obj.transform.SetParent(gameObject.transform);
-            var label_im = label_obj.AddComponent<RawImage>();
-            label_im.texture = Texture2D.whiteTexture;
-            RectTransform label_rect = label_im.GetComponent<RectTransform>();
-            label_rect.localPosition = new Vector3(img_x_offset, -item_height / 4, 0);
-            label_rect.sizeDelta = new Vector2(item_width, item_height / 4);
             var name = objs[i].name;
+            var label_obj = new GameObject("label_text");
+            label_obj.transform.SetParent(gameObject.transform);
+            var label_text = label_obj.AddComponent<Text>();
+            label_text.text = name;
+            label_text.font = Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf") as Font;
+            label_text.color = Color.black;
+            RectTransform label_rect = label_text.GetComponent<RectTransform>();
+            label_rect.localPosition = new Vector3(img_x_offset, -item_height / 4, 0);
+            label_rect.sizeDelta = new Vector2(item_width, item_height / 6);
+
+            // update the horizontal offset
+            img_x_offset += item_width + margin;
 
             // Attach the 3d obj under the raw image for drag - and - drop instantiating
             var real_obj = Instantiate(objs[i]);
@@ -91,13 +95,13 @@ public class item_menu_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!moving && Input.GetKeyDown(KeyCode.E))
+        if (!moving && Input.GetKeyDown(KeyCode.Q))
         {
             shift_amt = item_width + margin;
             moving = true;
             moving_left = false;
         } 
-        else if (!moving && Input.GetKeyDown(KeyCode.Q))
+        else if (!moving && Input.GetKeyDown(KeyCode.E))
         {
             shift_amt = item_width + margin;
             moving = true;
