@@ -59,7 +59,7 @@ public class item_menu_manager : MonoBehaviour
             label_text.font = Resources.GetBuiltinResource(typeof(Font), "LegacyRuntime.ttf") as Font;
             label_text.color = Color.black;
             RectTransform label_rect = label_text.GetComponent<RectTransform>();
-            label_rect.localPosition = new Vector3(img_x_offset, -item_height / 4, 0);
+            label_rect.localPosition = new Vector3(img_x_offset, -item_height / 3, 0);
             label_rect.sizeDelta = new Vector2(item_width, item_height / 6);
 
             // update the horizontal offset

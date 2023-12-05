@@ -1,4 +1,4 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
@@ -38,7 +38,11 @@ public class build_gyrate_texture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.Rotate(0, Time.deltaTime * rot_speed, 0);
+
+        if (gameObject.transform.eulerAngles.x != 0)
+            gameObject.transform.Rotate(0, 0, Time.deltaTime * rot_speed);
+        else
+            gameObject.transform.Rotate(0, Time.deltaTime * rot_speed, 0);
         cam.Render();
     } 
 
