@@ -67,9 +67,11 @@ public class item_menu_manager : MonoBehaviour
 
             // Attach the 3d obj under the raw image for drag - and - drop instantiating
             var real_obj = Instantiate(objs[i]);
-            real_obj.transform.SetParent(im.transform, false);
-            real_obj.name = "real_obj";
-            im.gameObject.AddComponent(drag_script.GetClass());
+            //real_obj.transform.SetParent(im.transform, false);
+            real_obj.name = name;
+            var drag_script_ins = im.gameObject.AddComponent(drag_script.GetClass());
+            FieldInfo new_obj_field = drag_script_ins.GetType().GetField("new_obj");
+            new_obj_field.SetValue(drag_script_ins, real_obj.transform);
 
             // get the width of the obj
             var max_bound = Mathf.Max(5f, find_max_bound(objs[i]));
@@ -80,11 +82,11 @@ public class item_menu_manager : MonoBehaviour
             x_offset += max_bound / 2;
 
             // attach the texture script to game object
-            var script = objs[i].AddComponent(texture_script.GetClass());
-            FieldInfo raw_img_field = script.GetType().GetField("raw_img");
-            FieldInfo max_bound_field = script.GetType().GetField("max_bound");
-            raw_img_field.SetValue(script, im);
-            max_bound_field.SetValue(script, max_bound);
+            var texture_script_ins = objs[i].AddComponent(texture_script.GetClass());
+            FieldInfo raw_img_field = texture_script_ins.GetType().GetField("raw_img");
+            FieldInfo max_bound_field = texture_script_ins.GetType().GetField("max_bound");
+            raw_img_field.SetValue(texture_script_ins, im);
+            max_bound_field.SetValue(texture_script_ins, max_bound);
             
             // store the raw images
             imgs.Add(im);
