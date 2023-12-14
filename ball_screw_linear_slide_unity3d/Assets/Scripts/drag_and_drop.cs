@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
@@ -16,16 +18,25 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     // Update is called once per frame
     void Update()
     {
+        // PLACE OBJ IN GAME FIRST THEN CHECK HERE FOR BOUND COORDS
+        if (!sticky_obj || !parent_obj) return;
 
+        var bds = sticky_obj.GetComponent<Renderer>().bounds;
+        var parent_bds = parent_obj.GetComponent<Renderer>().bounds;
+
+        var x_perc = (bds.min.x - parent_bds.min.x) / parent_bds.size.x;
+        var y_perc = (bds.min.y - parent_bds.min.y) / parent_bds.size.y;
+        var z_perc = (bds.min.z - parent_bds.min.z) / parent_bds.size.z;
+        var w_perc = bds.size.x / parent_bds.size.x;
+        var h_perc = bds.size.y / parent_bds.size.y;
+        var l_perc = bds.size.z / parent_bds.size.z;
+
+        return;
     }
 
     // for stick testing
-    public float sticky_x_perc = 0.7f;
-    public float sticky_z_perc = 0.3f;
-    public float sticky_w_perc = 0.3f;
-    public float sticky_h_perc = 0.3f;
-    public GameObject parent_obj;
-    private float y_hi, x_lo, z_lo;
+    private GameObject parent_obj;
+    private RaycastHit hit_save;
 
     public Transform sticky_obj_save;
     public Transform sticky_obj;
@@ -39,6 +50,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         init_pos = gameObject.transform.position;
         sticky_obj = Instantiate(sticky_obj_save);
+        sticky_obj.name = sticky_obj_save.name;
         sticky_obj.SetParent(null);
         sticky_obj.localPosition = Vector3.zero;
         sticky_obj.transform.localScale = Vector3.one * 100;
@@ -48,7 +60,6 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         // for pivot pointer deviation calculation
         new_obj_col = sticky_obj.GetComponent<MeshCollider>();
-        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -62,22 +73,28 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             sticky_obj.transform.position = hit.point + new_obj_col.bounds.extents.y * Vector3.one - (new_obj_col.bounds.center - sticky_obj.transform.position).y * Vector3.one;
             transform.position = init_pos;
 
-            // check if sticky obj is in bound of the specified area
-            var p_bds = hit.transform.gameObject.GetComponent<Renderer>().bounds;
-            var x_lo = p_bds.min.x;
-            var z_lo = p_bds.min.z;
-            var x_hi = p_bds.max.x;
-            var z_hi = p_bds.max.z;
-            
-            var w = (x_hi - x_lo) * sticky_w_perc;
-            var h = (z_hi - z_lo) * sticky_h_perc;
-            var x = x_lo + (x_hi - x_lo) * sticky_x_perc;
-            var z = z_lo + (z_hi - z_lo) * sticky_z_perc;
+            var parent_name = hit.transform.gameObject.name;
 
-            if (x+w > hit.point.x && hit.point.x > x && z+h > hit.point.z && hit.point.z > z)
-                sticky_obj.GetComponent<Renderer>().material.color = Color.green;
-            else
+            // attached to the wrong parent object
+            if (!sticky_manager.is_dep(sticky_obj.name, parent_name))
+            {
                 sticky_obj.GetComponent<Renderer>().material.color = Color.red;
+            }
+            else
+            {
+                // check if sticky obj is in bound of the specified area
+                parent_obj = hit.transform.gameObject;
+                hit_save = hit;
+                var p_bds = hit.transform.gameObject.GetComponent<Renderer>().bounds;
+                // attached to the correct parent object, check if it's in bound
+                if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name))
+                {
+                    sticky_obj.GetComponent<Renderer>().material.color = Color.green;
+                    
+                }
+                else
+                    sticky_obj.GetComponent<Renderer>().material.color = Color.red;
+            }
         }
         else
         {
@@ -92,7 +109,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.position = init_pos;
         var rdn = sticky_obj.GetComponent<Renderer>();
 
-        if (rdn.material.color == Color.red && sticky_obj.transform.position == Vector3.zero)
+        if (rdn.material.color == Color.red || sticky_obj.transform.position == Vector3.zero)
             Destroy(sticky_obj.gameObject);
         rdn.material.color = orig_color;
     }

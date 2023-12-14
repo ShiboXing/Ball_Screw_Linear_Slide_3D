@@ -67,7 +67,6 @@ public class item_menu_manager : MonoBehaviour
 
             // Attach the 3d obj under the raw image for drag - and - drop instantiating
             var real_obj = Instantiate(objs[i]);
-            //real_obj.transform.SetParent(im.transform, false);
             real_obj.name = name;
             var drag_script_ins = im.gameObject.AddComponent(drag_script.GetClass());
             FieldInfo new_obj_field = drag_script_ins.GetType().GetField("sticky_obj_save");
