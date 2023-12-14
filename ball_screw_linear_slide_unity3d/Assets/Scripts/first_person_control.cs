@@ -10,13 +10,15 @@ public class first_person_control : MonoBehaviour
     public float speed;
     public float rot_speed;
     private Vector3 pos;
-    private float x_rot, y_rot;
+    private float x_rot, y_rot, z_rot;
     // Start is called before the first frame update
     void Start()
     {
         pos = gameObject.transform.position;
-        x_rot = 0;
-        y_rot = 0;
+        // X, Y axes are inverted 
+        x_rot = transform.eulerAngles.y;
+        y_rot = transform.eulerAngles.x;
+        z_rot = transform.eulerAngles.z;
     }
 
     // Update is called once per frame
@@ -40,9 +42,8 @@ public class first_person_control : MonoBehaviour
             x_rot += mouseX * rot_speed;
             y_rot -= mouseY * rot_speed;
 
-            transform.eulerAngles = new Vector3(y_rot, x_rot, 0);
+            transform.eulerAngles = new Vector3(y_rot, x_rot, z_rot);
             transform.Translate(new Vector3(right, 0f, forward).normalized * speed * Time.deltaTime);
         }
-
     }
 }
