@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -42,7 +43,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Transform sticky_obj;
     private Vector3 init_pos;
     private int drag_mask;
-    private MeshCollider new_obj_col;
+    private MeshCollider sticky_collider;
     private Color orig_color;
 
 
@@ -59,7 +60,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         orig_color = sticky_obj.GetComponent<Renderer>().material.color;
 
         // for pivot pointer deviation calculation
-        new_obj_col = sticky_obj.GetComponent<MeshCollider>();
+        sticky_collider = sticky_obj.GetComponent<MeshCollider>();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -69,8 +70,15 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~drag_mask))
         {
-            // re-center the new_obj
-            sticky_obj.transform.position = hit.point + new_obj_col.bounds.extents.y * Vector3.one - (new_obj_col.bounds.center - sticky_obj.transform.position).y * Vector3.one;
+            // re-center the new_obj (counter the offset between Renderer and Collider)
+            var collider_offset = sticky_collider.bounds.extents + sticky_obj.transform.position - sticky_collider.bounds.center;
+            var x_offset = collider_offset.x;
+            var y_offset = collider_offset.y;
+            var z_offset = collider_offset.z;
+            if (ray.direction.x > 0) x_offset = -x_offset;
+            if (ray.direction.y > 0) y_offset = -y_offset;
+            if (ray.direction.z > 0) z_offset = -z_offset;
+            sticky_obj.transform.position = hit.point + new Vector3(x_offset, y_offset, z_offset);
             transform.position = init_pos;
 
             var parent_name = hit.transform.gameObject.name;
@@ -88,10 +96,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 var p_bds = hit.transform.gameObject.GetComponent<Renderer>().bounds;
                 // attached to the correct parent object, check if it's in bound
                 if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name))
-                {
                     sticky_obj.GetComponent<Renderer>().material.color = Color.green;
-                    
-                }
                 else
                     sticky_obj.GetComponent<Renderer>().material.color = Color.red;
             }
@@ -108,9 +113,9 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         transform.position = init_pos;
         var rdn = sticky_obj.GetComponent<Renderer>();
-
         if (rdn.material.color == Color.red || sticky_obj.transform.position == Vector3.zero)
             Destroy(sticky_obj.gameObject);
+        sticky_obj.gameObject.layer = LayerMask.NameToLayer("Default");
         rdn.material.color = orig_color;
     }
 }
