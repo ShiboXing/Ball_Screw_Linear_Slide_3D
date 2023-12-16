@@ -83,9 +83,14 @@ public sealed class sticky_manager : MonoBehaviour
         // instantiate the dependency map
         sticky_map = new Dictionary<string, HashSet<string>>();
         sticky_map["底板"] = new HashSet<string> { "GSX60C-H0前端座" };
-        sticky_map["GSX60C-H0前端座"] = new HashSet<string> { "SGSX60C000000003-轴承端盖" };
-        sticky_map["GSX60C-H0前端座"].Add("SGSX060CM00670015-GSX60C丝杆");
-        sticky_map["SGSX060CM00670015-GSX60C丝杆"] = new HashSet<string> { "SGSX60C000000004-圆螺母" };
+        sticky_map["GSX60C-H0前端座"] = new HashSet<string>
+        {
+            "SGSX60C000000003-轴承端盖",
+            "SGSX060CM00670015-GSX60C丝杆",
+            "SGSX60C000000004-圆螺母",
+        };
+        sticky_map["SGSX060CM00670015-GSX60C丝杆"] = new HashSet<string> {"SFC-26V"};
+
 
         // instantiate the bound coordinates mapping
         sticky_bounds = new Dictionary<string, Dictionary<string, List<float>>>();
@@ -102,6 +107,8 @@ public sealed class sticky_manager : MonoBehaviour
         sticky_bounds["底板"]["GSX60C-H0前端座"].AddRange(new float[] { 0.74f, 0f, 0.32f, 0.07f, float.PositiveInfinity, 0.35f });
         sticky_bounds["GSX60C-H0前端座"]["SGSX60C000000003-轴承端盖"].AddRange(new float[] { -0.1f, 0.27f, 0.21f, 0.13f, 0.48f, 0.61f });
         sticky_bounds["GSX60C-H0前端座"]["SGSX060CM00670015-GSX60C丝杆"].AddRange(new float[] { -10.64312f, 0.3883308f, 0.3909872f, 11.63333f, 0.25f, 0.2142864f });
+        sticky_bounds["GSX60C-H0前端座"]["SGSX60C000000004-圆螺母"].AddRange(new float[] { 0.426317f, 0.35774518f, 0.3602898f, 0.2666667f, 0.3274215f, 0.280647f });
+        sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["SFC-26V"].AddRange(new float[] { 0.9734778f, -0.5685194f, -0.5830744f, 0.06733526f, 2.166667f, 2.166659f });
     }
 
     // Update is called once per frame
