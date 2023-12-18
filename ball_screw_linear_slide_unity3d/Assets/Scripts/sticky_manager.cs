@@ -60,12 +60,6 @@ public sealed class sticky_manager : MonoBehaviour
                 var x_mid = x_base + offset.x + w / 2;
                 var y_mid = y_base + offset.y + h / 2;
                 var z_mid = z_base + offset.z + l / 2;
-                if (Mathf.Abs(w) == float.PositiveInfinity)
-                    x_mid = x_hit;
-                if (Mathf.Abs(h) == float.PositiveInfinity)
-                    y_mid = y_hit;
-                if (Mathf.Abs(l) == float.PositiveInfinity)
-                    z_mid = z_hit;
                 sticky_trans.position = new Vector3(x_mid, y_mid, z_mid);
                 return true;
             }
@@ -108,12 +102,12 @@ public sealed class sticky_manager : MonoBehaviour
             }
         }
         // when width is 2 times the x-offset, the sticky obj is centered in the x axis of the parent object. Same applies to other axes
-        sticky_bounds["底板"]["GSX60C-H0前端座"].AddRange(new float[] { 0.74f, 0f, 0.32f, 0.07f, float.PositiveInfinity, 0.35f });
+        sticky_bounds["底板"]["GSX60C-H0前端座"].AddRange(new float[] { 0.74f, 1f, 0.32f, 0.07f, 4f, 0.35f });
         sticky_bounds["GSX60C-H0前端座"]["SGSX60C000000003-轴承端盖"].AddRange(new float[] { -0.1f, 0.27f, 0.21f, 0.13f, 0.48f, 0.61f });
         sticky_bounds["GSX60C-H0前端座"]["SGSX060CM00670015-GSX60C丝杆"].AddRange(new float[] { -10.64312f, 0.3883308f, 0.3909872f, 11.63333f, 0.25f, 0.2142864f });
         sticky_bounds["GSX60C-H0前端座"]["SGSX60C000000004-圆螺母"].AddRange(new float[] { 0.426317f, 0.35774518f, 0.3602898f, 0.2666667f, 0.3274215f, 0.280647f });
         sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["SFC-26V"].AddRange(new float[] { 0.9734778f, -0.5685194f, -0.5830744f, 0.06733526f, 2.166667f, 2.166659f });
-        sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["面板螺母固定块"].AddRange(new float[] { 0.07297214f, -20f, -20f, 0.1432665f, 40f, 40f }); 
+        sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["面板螺母固定块"].AddRange(new float[] { 0.07297214f, -0.5963218f - 3 * 2.191667f, -0.9945007f - 3 * 2.99999f, 0.1432665f, 2.191667f * 7, 2.99999f * 7 }); 
     }
 
     // Update is called once per frame
