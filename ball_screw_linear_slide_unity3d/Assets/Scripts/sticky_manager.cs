@@ -75,7 +75,11 @@ public sealed class sticky_manager : MonoBehaviour
     {
         // instantiate the dependency map
         sticky_map = new Dictionary<string, HashSet<string>>();
-        sticky_map["底板"] = new HashSet<string> { "GSX60C-H0前端座" };
+        sticky_map["底板"] = new HashSet<string> { 
+            "GSX60C-H0前端座",
+            "轴承支座" 
+        };
+        
         sticky_map["GSX60C-H0前端座"] = new HashSet<string>
         {
             "SGSX60C000000003-轴承端盖",
@@ -86,8 +90,12 @@ public sealed class sticky_manager : MonoBehaviour
         sticky_map["SGSX060CM00670015-GSX60C丝杆"] = new HashSet<string> {
             "SFC-26V",
             "面板螺母固定块",
-            "628-6轴承"
+            "628-6轴承",
         };
+        sticky_map["628-6轴承"] = new HashSet<string> {
+            "轴承支座"
+        };
+
 
 
         // instantiate the bound coordinates mapping
@@ -109,7 +117,8 @@ public sealed class sticky_manager : MonoBehaviour
         sticky_bounds["GSX60C-H0前端座"]["SGSX60C000000004-圆螺母"].AddRange(new float[] { 0.426317f, 0.35774518f, 0.3602898f, 0.2666667f, 0.3274215f, 0.280647f });
         sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["SFC-26V"].AddRange(new float[] { 0.9734778f, -0.5685194f, -0.5830744f, 0.06733526f, 2.166667f, 2.166659f });
         sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["面板螺母固定块"].AddRange(new float[] { 0.07297214f, -0.5963218f - 3 * 2.191667f, -0.9945007f - 3 * 2.99999f, 0.1432665f, 2.191667f * 7, 2.99999f * 7 });
-        sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["628-6轴承"].AddRange(new float[] { 0f, 0.3883308f - 3*0.25f, 0.3909872f - 3*0.2142864f, 0.02432665f, 0.25f * 7, 0.2142864f * 7});
+        sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["628-6轴承"].AddRange(new float[] { 0f, 0.3883308f - 3 * 0.25f, 0.3909872f - 3 * 0.2142864f, 0.02432665f, 0.25f * 7, 0.2142864f * 7 });
+        sticky_bounds["628-6轴承"]["轴承支座"].AddRange(new float[] { 0.04751584f - 3*2.399999f, -1.422f - 2*3.692308f, -1.233661f - 2* 3.461538f, 2.399999f*7, 3.692308f*5, 3.461538f*5 });
     }
 
     // Update is called once per frame
