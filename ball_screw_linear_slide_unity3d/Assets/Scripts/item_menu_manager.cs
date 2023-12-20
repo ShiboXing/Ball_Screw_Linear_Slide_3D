@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 using System.Reflection;
 using TMPro;
 using Unity.VisualScripting;
@@ -24,6 +25,7 @@ public class item_menu_manager : MonoBehaviour
     private bool moving = false;
     private bool moving_left = false;
     private float shift_amt;
+    private float menu_init_x;
 
     // Start is called before the first frame update
     void Start()
@@ -86,23 +88,24 @@ public class item_menu_manager : MonoBehaviour
             FieldInfo max_bound_field = texture_script_ins.GetType().GetField("max_bound");
             raw_img_field.SetValue(texture_script_ins, im);
             max_bound_field.SetValue(texture_script_ins, max_bound);
-            
+
             // store the raw images
             imgs.Add(im);
-            
         }
+
+        menu_init_x = gameObject.transform.localPosition.x;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!moving && Input.GetKeyDown(KeyCode.Q))
+        if (!moving && Input.GetKeyDown(KeyCode.Q) && gameObject.transform.localPosition.x + 0.01 < menu_init_x)
         {
             shift_amt = item_width + margin;
             moving = true;
             moving_left = false;
         } 
-        else if (!moving && Input.GetKeyDown(KeyCode.E))
+        else if (!moving && Input.GetKeyDown(KeyCode.E) && imgs[imgs.Count - 1].transform.position.x > Screen.width)
         {
             shift_amt = item_width + margin;
             moving = true;

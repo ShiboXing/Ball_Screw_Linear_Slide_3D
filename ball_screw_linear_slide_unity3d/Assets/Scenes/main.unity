@@ -2342,7 +2342,7 @@ MonoBehaviour:
   parentTransform: {fileID: 0}
   texture_script: {fileID: 11500000, guid: cac9cf511f28abb4ebffae393f133d19, type: 3}
   drag_script: {fileID: 11500000, guid: 482b34095e5f04a4280a1432bd2a6c67, type: 3}
-  toggle_speed: 10
+  toggle_speed: 20
   margin: 20
 --- !u!1001 &983418202
 PrefabInstance:
@@ -3219,6 +3219,37 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1839227953}
   m_SourcePrefab: {fileID: 100100000, guid: b6b2b77f9fafe8e45b3b53fa47c1bb0e, type: 3}
+--- !u!1 &1657801249
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1657801250}
+  m_Layer: 0
+  m_Name: menu_placeholder_obj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1657801250
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657801249}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 542.99994, y: 592.94836, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1774961082 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b7a577ece38870d43b374ef84217370e, type: 3}
@@ -4234,3 +4265,4 @@ SceneRoots:
   - {fileID: 1251647146}
   - {fileID: 43299588}
   - {fileID: 90159459}
+  - {fileID: 1657801250}

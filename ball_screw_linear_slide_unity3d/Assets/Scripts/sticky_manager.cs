@@ -55,7 +55,7 @@ public sealed class sticky_manager : MonoBehaviour
                 // RE-ADJUST for the OFFSET between the Renderer's BOUND and TRANSFORM
                 var sticky_bds = sticky_trans.gameObject.GetComponent<Renderer>().bounds;
                 var offset = sticky_trans.position - sticky_bds.center;
-
+                
                 // reset it to the CENTER of the bound
                 var x_mid = x_base + offset.x + w / 2;
                 var y_mid = y_base + offset.y + h / 2;
