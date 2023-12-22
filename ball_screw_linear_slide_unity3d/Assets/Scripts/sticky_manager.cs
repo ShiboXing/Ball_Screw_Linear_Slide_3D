@@ -63,7 +63,6 @@ public sealed class sticky_manager : MonoBehaviour
                 sticky_trans.position = new Vector3(x_mid, y_mid, z_mid);
                 return true;
             }
-
         }
 
         return false;
