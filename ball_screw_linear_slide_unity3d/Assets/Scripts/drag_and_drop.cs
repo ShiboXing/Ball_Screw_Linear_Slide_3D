@@ -37,8 +37,6 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     // for stick testing
     private GameObject parent_obj;
-    private RaycastHit hit_save;
-
     public Transform sticky_obj_save;
     public Transform sticky_obj;
     private Vector3 init_pos;
@@ -92,10 +90,9 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             {
                 // check if sticky obj is in bound of the specified area
                 parent_obj = hit.transform.gameObject;
-                hit_save = hit;
                 var p_bds = hit.transform.gameObject.GetComponent<Renderer>().bounds;
                 // attached to the correct parent object, check if it's in bound
-                if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name))// || sticky_obj.name.Contains("42步进电机"))
+                if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name) || sticky_obj.name.Contains("轴承支座"))
                     sticky_obj.GetComponent<Renderer>().material.color = Color.green;
                 else
                     sticky_obj.GetComponent<Renderer>().material.color = Color.red;

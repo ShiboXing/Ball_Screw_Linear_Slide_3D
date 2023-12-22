@@ -921,19 +921,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b576701bbd977a4e80ad3009e92cd55, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: -0.02505381
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b576701bbd977a4e80ad3009e92cd55, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.7066628
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b576701bbd977a4e80ad3009e92cd55, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7071068
+      value: -0.02505381
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b576701bbd977a4e80ad3009e92cd55, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.7066628
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b576701bbd977a4e80ad3009e92cd55, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -945,7 +945,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b576701bbd977a4e80ad3009e92cd55, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 184.061
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1b576701bbd977a4e80ad3009e92cd55, type: 3}
       propertyPath: m_Name
@@ -3870,7 +3870,7 @@ GameObject:
   - component: {fileID: 3141987098153640049}
   - component: {fileID: 3141987098153640050}
   m_Layer: 0
-  m_Name: "\u5927\u87BA\u4E1D\u9489___hexagon_socket_head_cap_screws_gb_3"
+  m_Name: "\u5927\u87BA\u4E1D"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3984,14 +3984,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6946984250013578959}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7485464, y: -0, z: -0, w: 0.6630825}
+  m_LocalRotation: {x: -0.06043012, y: 0, z: 0, w: 0.99817246}
   m_LocalPosition: {x: 42.24, y: 100, z: -42.31}
   m_LocalScale: {x: 100, y: 100.00007, z: 100.00007}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8128361949739917609}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -96.929, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -6.929, y: 0, z: 0}
 --- !u!33 &2750787566072581522
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4150,7 +4150,7 @@ GameObject:
   - component: {fileID: 4227213767016148359}
   - component: {fileID: 4761089871450562830}
   m_Layer: 0
-  m_Name: "\u5C0F\u4E1D\u6746\u5BFC\u8F68___\u9A71\u52A8\u7EC4\u5408_1_hexagon_socket_head_cap_screws_gb_2"
+  m_Name: "\u5C0F\u87BA\u4E1D"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4209,7 +4209,7 @@ GameObject:
   - component: {fileID: 1988922495007675109}
   - component: {fileID: 8431841447998870022}
   m_Layer: 0
-  m_Name: "\u4E2D\u4E1D\u6746\u5BFC\u8F68___\u9A71\u52A8\u7EC4\u5408_1_hexagon_socket_head_cap_screws_gb_15"
+  m_Name: "\u4E2D\u87BA\u4E1D"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
