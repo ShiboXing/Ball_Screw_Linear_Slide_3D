@@ -71,6 +71,7 @@ public class item_menu_manager : MonoBehaviour
             var real_obj = Instantiate(objs[i]);
             real_obj.name = name;
             var drag_script_ins = im.gameObject.AddComponent(drag_script.GetClass());
+            real_obj.AddComponent(typeof(collider_manager));
             FieldInfo new_obj_field = drag_script_ins.GetType().GetField("sticky_obj_save");
             new_obj_field.SetValue(drag_script_ins, real_obj.transform);
 
