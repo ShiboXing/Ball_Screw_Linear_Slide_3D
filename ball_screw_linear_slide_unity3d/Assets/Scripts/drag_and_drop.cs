@@ -97,7 +97,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 // attached to the correct parent object, check if it's in bound
                 if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name)
                     && !sticky_collider.GetComponent<collider_manager>().check_duplicated()
-                    || sticky_obj.name.Contains("面板"))
+                    || sticky_obj.name.Contains("非标"))
                     sticky_obj.GetComponent<Renderer>().material.color = Color.green;
                 else
                     sticky_obj.GetComponent<Renderer>().material.color = Color.red;

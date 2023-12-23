@@ -144,6 +144,10 @@ public sealed class sticky_manager : MonoBehaviour
         {
             "丝杆结构面板"
         };
+        sticky_map["丝杆结构面板"] = new HashSet<string>
+        {
+            "674非标感应片"
+        };
         sticky_map["SFC-26V"] = new HashSet<string>
         {
             "中螺丝"
@@ -188,6 +192,7 @@ public sealed class sticky_manager : MonoBehaviour
         sticky_bounds["导轨MR12MN_1"]["MR12MN滑块"].AddRange(new float[] { 0.07455705f, 0.3966967f - 3 * 1.333333f, -0.6375248f - 3*2.25f, 0.1220339f, 7 * 1.333333f, 7*2.25f });
         sticky_bounds["MR12MN滑块_1"]["丝杆结构面板"].AddRange(new float[] { -0.2622162f, 1f, -0.1252464f, 1.527778f, 1.200002f, 5.370371f });
         sticky_bounds["MR12MN滑块_0"]["丝杆结构面板"].AddRange(new float[] { -0.2622162f, 1f, -4.245984f, 1.527778f, 1.200002f, 5.370371f });
+        sticky_bounds["丝杆结构面板"]["674非标感应片"].AddRange(new float[] { 0.3634775f -3*0.2727273f, -2.337829f - 3*2.333329f, 0.7106974f-5*0.0551724f, 0.2727273f*7, 2.333329f*7, 0.0551724f*11 });
 
         // specs for screws (multiple boxese)
         sticky_bounds["电机座"]["小螺丝"].AddRange(new float[] { 0.5629686f, 0.782914f, 0.1724515f, 0.5909104f, 0.1145783f, 0.09812751f,
