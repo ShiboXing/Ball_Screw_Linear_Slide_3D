@@ -44,7 +44,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private MeshCollider sticky_collider;
     private Color orig_color;
 
-
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         init_pos = gameObject.transform.position;
@@ -92,7 +92,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 parent_obj = hit.transform.gameObject;
                 var p_bds = hit.transform.gameObject.GetComponent<Renderer>().bounds;
                 // attached to the correct parent object, check if it's in bound
-                if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name) || sticky_obj.name.Contains("轴承支座"))
+                if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name) || sticky_obj.name.Contains("螺丝"))
                     sticky_obj.GetComponent<Renderer>().material.color = Color.green;
                 else
                     sticky_obj.GetComponent<Renderer>().material.color = Color.red;

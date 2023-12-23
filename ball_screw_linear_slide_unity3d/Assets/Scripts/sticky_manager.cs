@@ -85,10 +85,11 @@ public sealed class sticky_manager : MonoBehaviour
             "SGSX60C000000003-轴承端盖",
             "SGSX060CM00670015-GSX60C丝杆",
             "SGSX60C000000004-圆螺母",
+            "大螺丝"
         };
         sticky_map["SGSX060CM00670015-GSX60C丝杆"] = new HashSet<string> {
             "面板螺母固定块",
-            "628-6轴承",
+            "628-6轴承"
         };
         sticky_map["SGSX60C000000004-圆螺母"] = new HashSet<string>
         {
@@ -96,7 +97,8 @@ public sealed class sticky_manager : MonoBehaviour
         };
         sticky_map["电机座"] = new HashSet<string> {
             "42步进电机",
-            "小螺丝"
+            "小螺丝",
+            "大螺丝"
         };
         sticky_map["SGSX60C000000003-轴承端盖"] = new HashSet<string>
         {
@@ -143,6 +145,8 @@ public sealed class sticky_manager : MonoBehaviour
                                                                                   -0.9098019f, 0.6856521f, 0.06330152f, 3.250004f, 0.2391198f, 0.1616218f,
                                                                                   -0.9098019f, 0.07217385f, 0.7741814f, 3.250004f, 0.2391198f, 0.1616218f,
                                                                                   -0.9098019f, 0.07478257f, 0.06859273f, 3.250004f, 0.2391198f, 0.1616218f});
+        sticky_bounds["GSX60C-H0前端座"]["大螺丝"].AddRange(new float[] { 0.1516163f, -0.01759844f - 3*0.5208333f, 0.8172576f, 0.2831822f, 0.5208333f * 7, 0.1517203f,
+                                                                        0.1516163f, -0.01759844f - 3*0.5208333f, 0.03761562f, 0.2831822f, 0.5208333f * 7, 0.1517203f,});
         sticky_bounds["SFC-26V"]["中螺丝"].AddRange(new float[] { 0.7390078f, 0.3797785f - 3*0.5746338f, 0.6827561f, 0.2338643f, 7*0.5746338f, 0.2807588f});
 
     }
