@@ -78,7 +78,8 @@ public sealed class sticky_manager : MonoBehaviour
             "GSX60C-H0前端座",
             "轴承支座",
             "电机座",
-            "轴承支座"
+            "轴承支座",
+            "AGETE13-295-25 米思米导轨高度垫块"
         };
         sticky_map["GSX60C-H0前端座"] = new HashSet<string>
         {
@@ -104,6 +105,14 @@ public sealed class sticky_manager : MonoBehaviour
         {
             "小螺丝"
         };
+        sticky_map["AGETE13-295-25 米思米导轨高度垫块"] = new HashSet<string>
+        {
+            "导轨MR12MN"
+        };
+        sticky_map["导轨MR12MN"] = new HashSet<string>
+        {
+            "MR12MN滑块"
+        };
         sticky_map["SFC-26V"] = new HashSet<string>
         {
             "中螺丝"
@@ -125,9 +134,13 @@ public sealed class sticky_manager : MonoBehaviour
 
         // BOUND BOXES SPECIFICATIONS
         // Can make the specified box n times wider/higher/lengthier to allow more leeway for user
-        sticky_bounds["底板"]["GSX60C-H0前端座"].AddRange(new float[] { 0.74f, 1f, 0.32f, 0.07f, 4f, 0.35f });
+        sticky_bounds["底板"]["GSX60C-H0前端座"].AddRange(new float[] { 0.7402945f, 0.9999999f, 0.3250647f, 0.06896553f, 4f, 0.3510973f });
         sticky_bounds["底板"]["电机座"].AddRange(new float[] { 0.8382539f, 0.9999999f, 0.3255995f, 0.05057471f, 4f, 0.3510972f });
         sticky_bounds["底板"]["轴承支座"].AddRange(new float[] { 0.004624289f, 0.9961535f, 0.3560415f, 0.0275862f, 4f, 0.2821316f});
+        sticky_bounds["底板"]["AGETE13-295-25 米思米导轨高度垫块"].AddRange(new float[] { 0.05528285f, 0.9999996f, 0.8107246f, 0.6781608f, 2.083333f, 0.07523511f,
+                                                                                       0.05528285f, 0.9999996f, 0.1142362f, 0.6781608f, 2.083333f, 0.07523511f });
+        sticky_bounds["AGETE13-295-25 米思米导轨高度垫块"]["导轨MR12MN"].AddRange(new float[] { -0.0001975237f, 0.9999999f, -0.008544921f, 1f, 0.3f, 1f });
+        sticky_bounds["导轨MR12MN"]["MR12MN滑块"].AddRange(new float[] { 0.07455705f, 0.3966967f - 3*1.333333f, -0.6375248f, 0.1220339f, 7*1.333333f, 2.25f });
         sticky_bounds["电机座"]["42步进电机"].AddRange(new float[] { -0.0787995f, 0.05959356f, 0.1031739f, 3.272728f, 0.8812502f, 0.7553574f });
         sticky_bounds["GSX60C-H0前端座"]["SGSX60C000000003-轴承端盖"].AddRange(new float[] { -0.1016667f, 0.2816641f, 0.1965304f, 0.1333334f, 0.4791667f, 0.6071427f });
         sticky_bounds["GSX60C-H0前端座"]["SGSX060CM00670015-GSX60C丝杆"].AddRange(new float[] { -10.64312f, 0.3883308f, 0.3909872f, 11.63333f, 0.25f, 0.2142864f });
@@ -141,11 +154,15 @@ public sealed class sticky_manager : MonoBehaviour
                                                                0.5629686f, 0.7899914f, 0.7260212f, 0.5909104f, 0.1145783f, 0.09812751f,
                                                                0.5629686f, 0.1433309f, 0.7279858f, 0.5909104f, 0.1145783f, 0.09812751f,
                                                                0.5629686f, 0.1433309f, 0.1724515f, 0.5909104f, 0.1145783f, 0.09812751f});
+        sticky_bounds["电机座"]["大螺丝"].AddRange(new float[] { 0.07331847f, -0.184265f - 3*0.5208333f, 0.8309963f, 0.3861576f, 0.5208333f * 7, 0.1517203f,
+                                                               0.07331847f, -0.184265f - 3*0.5208333f, 0.01311983f, 0.3861576f, 0.5208333f * 7, 0.1517203f});
         sticky_bounds["SGSX60C000000003-轴承端盖"]["小螺丝"].AddRange(new float[] { -0.9098019f, 0.6730435f, 0.7721215f, 3.250004f, 0.2391198f, 0.1616218f,
                                                                                   -0.9098019f, 0.6856521f, 0.06330152f, 3.250004f, 0.2391198f, 0.1616218f,
                                                                                   -0.9098019f, 0.07217385f, 0.7741814f, 3.250004f, 0.2391198f, 0.1616218f,
                                                                                   -0.9098019f, 0.07478257f, 0.06859273f, 3.250004f, 0.2391198f, 0.1616218f});
         sticky_bounds["GSX60C-H0前端座"]["大螺丝"].AddRange(new float[] { 0.1516163f, -0.01759844f - 3*0.5208333f, 0.8172576f, 0.2831822f, 0.5208333f * 7, 0.1517203f,
+                                                                        0.6507257f, -0.1775984f - 3*0.5208333f, 0.04080634f, 0.2831822f, 0.5208333f * 7, 0.1517203f,
+                                                                        0.6507257f, -0.1775984f - 3*0.5208333f, 0.8172576f, 0.2831822f, 0.5208333f * 7, 0.1517203f,
                                                                         0.1516163f, -0.01759844f - 3*0.5208333f, 0.03761562f, 0.2831822f, 0.5208333f * 7, 0.1517203f,});
         sticky_bounds["SFC-26V"]["中螺丝"].AddRange(new float[] { 0.7390078f, 0.3797785f - 3*0.5746338f, 0.6827561f, 0.2338643f, 7*0.5746338f, 0.2807588f});
 
