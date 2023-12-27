@@ -66,7 +66,7 @@ public sealed class sticky_manager : MonoBehaviour
                 sticky_trans.position = new Vector3(x_mid, y_mid, z_mid);
 
                 // STICKY OBJ RENAMING PHASE
-                if (rename_map[parent][sticky_trans.name].ContainsKey(i/interval))
+                if (rename_map[parent][sticky_trans.name].ContainsKey(i / interval))
                     sticky_trans.name = rename_map[parent][sticky_trans.name][i / interval];
 
                 return true;
