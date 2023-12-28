@@ -19,7 +19,7 @@ public sealed class sticky_manager : MonoBehaviour
     }
 
     // check if the user has placed the sticky obj in the correct bound
-    public static bool in_bound(Transform sticky_trans, Bounds bd, string parent, string child)
+    public static bool in_bound(Transform sticky_trans, Bounds bd, string parent, string child, ref string sticky_new_name)
     {  
         // check if the obj is attached to the right parent obj
         if (!sticky_bounds.ContainsKey(parent) || !sticky_bounds[parent].ContainsKey(child))
@@ -67,7 +67,7 @@ public sealed class sticky_manager : MonoBehaviour
 
                 // STICKY OBJ RENAMING PHASE
                 if (rename_map[parent][sticky_trans.name].ContainsKey(i / interval))
-                    sticky_trans.name = rename_map[parent][sticky_trans.name][i / interval];
+                    sticky_new_name = rename_map[parent][sticky_trans.name][i / interval];
 
                 return true;
             }
@@ -76,6 +76,11 @@ public sealed class sticky_manager : MonoBehaviour
         return false;
     }
 
+    
+    public static bool same_obj(string sticky_name, string og_name)
+    {
+        return sticky_name.Contains(og_name);
+    }
 
     // Start is called before the first frame update
     void Start()

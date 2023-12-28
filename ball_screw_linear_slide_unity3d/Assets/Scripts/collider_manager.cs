@@ -14,13 +14,15 @@ public class collider_manager : MonoBehaviour
 
     private void OnTriggerEnter (Collider col)
     {
-        if (col.gameObject.name == gameObject.name)
+        if (sticky_manager.same_obj(col.gameObject.name, gameObject.name))
             duplicated = true;
+        //else
+        //    duplicated = false;
     }
 
-    public void OnTriggerExit(Collider col)
-    { 
-         if (col.gameObject.name == gameObject.name)
+    private void OnTriggerExit(Collider col)
+    {
+        if (sticky_manager.same_obj(col.gameObject.name, gameObject.name))
             duplicated = false;
     }
 
