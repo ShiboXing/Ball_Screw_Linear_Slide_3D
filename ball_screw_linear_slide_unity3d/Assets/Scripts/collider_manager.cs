@@ -16,8 +16,6 @@ public class collider_manager : MonoBehaviour
     {
         if (sticky_manager.same_obj(col.gameObject.name, gameObject.name))
             duplicated = true;
-        //else
-        //    duplicated = false;
     }
 
     private void OnTriggerExit(Collider col)

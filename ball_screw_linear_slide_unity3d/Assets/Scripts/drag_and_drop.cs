@@ -83,10 +83,9 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             transform.position = init_pos;
 
             var parent_name = hit.transform.gameObject.name;
-
-            // attached to the wrong parent object
+            
             if (!sticky_manager.is_dep(sticky_obj.name, parent_name))
-            {
+            {// check if attached to the wrong parent object
                 sticky_obj.GetComponent<Renderer>().material.color = Color.red;
             }
             else
@@ -97,11 +96,13 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 // attached to the correct parent object, check if it's in bound
                 if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name, ref sticky_new_name)
                     && !sticky_collider.GetComponent<collider_manager>().check_duplicated()
-                    || sticky_obj.name.Contains("丝杆"))
+                    && sticky_obj.GetComponent<schieber_manager>().start_schieber())
+                    //|| sticky_obj.name.Contains("丝杆"))
+                {
                     sticky_obj.GetComponent<Renderer>().material.color = Color.green;
+                }
                 else
                     sticky_obj.GetComponent<Renderer>().material.color = Color.red;
-                
             }
         }
         else
