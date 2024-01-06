@@ -10,15 +10,41 @@ using UnityEngine.Rendering;
 
 public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+
+
+    // for stick testing
+    private GameObject parent_obj;
+    public Transform sticky_obj_save;
+    public Transform sticky_obj;
+    public string sticky_og_name;
+    public string sticky_new_name;
+    private Vector3 init_pos;
+    private int drag_mask;
+    private MeshCollider sticky_collider;
+    private Color orig_color;
+    private LinkedList<GameObject> del_queue;
+
+    // advanced sticky testing
+    schieber_manager sch_man;
+    collider_manager col_man;
+
     // Start is called before the first frame update
     void Start()
     {
-        return;
+        del_queue = new LinkedList<GameObject>();
     }
-
+    
     // Update is called once per frame
     void Update()
     {
+        // remove objs from deque when their schieber session finishes
+        while (del_queue.Count > 0 && del_queue.First.Value.GetComponent<schieber_manager>().fine_tuning)
+        {
+            Destroy(del_queue.First.Value);
+            del_queue.RemoveFirst();
+        }
+    
+
         // PLACE OBJ IN GAME FIRST THEN CHECK HERE FOR BOUND COORDS
         if (!sticky_obj || !parent_obj) return;
 
@@ -35,24 +61,9 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         return;
     }
 
-    // for stick testing
-    private GameObject parent_obj;
-    public Transform sticky_obj_save;
-    public Transform sticky_obj;
-    public string sticky_og_name;
-    public string sticky_new_name;
-    private Vector3 init_pos;
-    private int drag_mask;
-    private MeshCollider sticky_collider;
-    private Color orig_color;
-
-    // advanced sticky testing
-    schieber_manager sch_man;
-    collider_manager col_man;
 
 
-    
-    public void OnBeginDrag(PointerEventData eventData)
+public void OnBeginDrag(PointerEventData eventData)
     {
         init_pos = gameObject.transform.position;
         sticky_obj = Instantiate(sticky_obj_save);
@@ -69,7 +80,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         sticky_og_name = sticky_obj.name;
 
         col_man = sticky_collider.GetComponent<collider_manager>();
-        sch_man = sticky_collider.GetComponent<schieber_manager>();
+        sch_man = sticky_obj.GetComponent<schieber_manager>();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -117,7 +128,6 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             transform.position = eventData.position;
             sticky_obj.transform.position = Vector3.zero;
         }
-        
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -125,12 +135,16 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.position = init_pos;
         var rdn = sticky_obj.GetComponent<Renderer>();
 
+        // end any schieber session
+        sch_man.end_schiber();
+
         if (rdn.material.color == Color.red || sticky_obj.transform.position == Vector3.zero)
-            Destroy(sticky_obj.gameObject);
+            del_queue.AddLast(sticky_obj.gameObject);
         else
             sticky_obj.name = sticky_new_name == null ? sticky_og_name : sticky_new_name;
 
         sticky_obj.gameObject.layer = LayerMask.NameToLayer("Default");
         rdn.material.color = orig_color;
+
     }
 }

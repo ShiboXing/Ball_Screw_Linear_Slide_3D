@@ -1,9 +1,11 @@
-﻿using Unity.VisualScripting;
+﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class schieber_manager : MonoBehaviour
 {
     public bool fine_tuning = false;
+    private bool ending = false;
     private bool is_schieber = false;
     private Vector3 cam_pos;
     private Vector3 og_pos;
@@ -34,6 +36,19 @@ public class schieber_manager : MonoBehaviour
         
         return false;
     }
+    
+    // stop schieber session and reset the camera
+    public void end_schiber()
+    {
+        if (!fine_tuning) return;
+        // re-assign the start and end points of the camera movement
+        var tmp = og_pos;
+        og_pos = cam_pos;
+        cam_pos = tmp;
+        
+        // set the ending animation marker
+        ending = true;
+    }
 
 
     // Update is called once per frame
@@ -49,6 +64,12 @@ public class schieber_manager : MonoBehaviour
             
             global_manager.main_cam.transform.position = Vector3.Lerp(og_pos, cam_pos, frac + step);
             global_manager.main_cam.transform.LookAt(transform);
+
+            if (ending)
+            {
+                ending = false;
+                fine_tuning = false;
+            }
         }
     }
     
