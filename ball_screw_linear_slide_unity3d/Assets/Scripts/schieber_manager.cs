@@ -65,7 +65,7 @@ public class schieber_manager : MonoBehaviour
             global_manager.main_cam.transform.position = Vector3.Lerp(og_pos, cam_pos, frac + step);
             global_manager.main_cam.transform.LookAt(transform);
 
-            if (ending)
+            if (ending && global_manager.main_cam.transform.position == cam_pos)
             {
                 ending = false;
                 fine_tuning = false;

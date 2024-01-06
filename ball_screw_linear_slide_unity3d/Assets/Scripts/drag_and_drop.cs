@@ -38,7 +38,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     void Update()
     {
         // remove objs from deque when their schieber session finishes
-        while (del_queue.Count > 0 && del_queue.First.Value.GetComponent<schieber_manager>().fine_tuning)
+        while (del_queue.Count > 0 && !del_queue.First.Value.GetComponent<schieber_manager>().fine_tuning)
         {
             Destroy(del_queue.First.Value);
             del_queue.RemoveFirst();
