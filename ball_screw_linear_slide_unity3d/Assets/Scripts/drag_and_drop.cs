@@ -33,7 +33,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         del_queue = new LinkedList<GameObject>();
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -43,7 +43,7 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             Destroy(del_queue.First.Value);
             del_queue.RemoveFirst();
         }
-    
+
 
         // PLACE OBJ IN GAME FIRST THEN CHECK HERE FOR BOUND COORDS
         if (!sticky_obj || !parent_obj) return;
@@ -60,8 +60,6 @@ public class drag_and_drop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         return;
     }
-
-
 
 public void OnBeginDrag(PointerEventData eventData)
     {
@@ -88,8 +86,25 @@ public void OnBeginDrag(PointerEventData eventData)
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+
+        // user solves the schieber puzzle
         if (sch_man.fine_tuning) {
-            return;
+            /** user's mouse ray intersects with the XZ plane, solve for z
+             P_intersect(x, z) = P0 + t*Ray
+             z and t are unknown */
+            float x = sticky_obj.position.x;
+            float t = (x - ray.origin.x) / ray.direction.normalized.x;
+            float z = ray.origin.z + t * ray.direction.normalized.z;
+            z = Math.Min(Math.Max(z, sch_man.min_bound().z), sch_man.max_bound().z);
+            sticky_obj.position = new Vector3(sticky_obj.position.x, sticky_obj.position.y, z);
+
+            // check if the schiber puzzle is solved
+            if (sch_man.check_target() && !col_man.check_duplicated())
+                sticky_obj.GetComponent<Renderer>().material.color = Color.green;
+            else
+                sticky_obj.GetComponent<Renderer>().material.color = Color.red;
+
+
         } else if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~drag_mask)) {
             // re-center the new_obj (counter the offset between Renderer and Collider)
             var collider_offset = sticky_collider.bounds.extents + sticky_obj.transform.position - sticky_collider.bounds.center;
@@ -116,7 +131,7 @@ public void OnBeginDrag(PointerEventData eventData)
                 // attached to the correct parent object, check if it's in bound
                 if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name, ref sticky_new_name)
                     && !col_man.check_duplicated()
-                    && sch_man.start_schieber())
+                    && !sch_man.start_schieber())
                 //|| sticky_obj.name.Contains("丝杆"))
                 {
                     sticky_obj.GetComponent<Renderer>().material.color = Color.green;

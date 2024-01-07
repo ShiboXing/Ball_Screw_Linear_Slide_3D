@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net.Sockets;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class schieber_manager : MonoBehaviour
@@ -9,6 +11,7 @@ public class schieber_manager : MonoBehaviour
     private bool is_schieber = false;
     private Vector3 cam_pos;
     private Vector3 og_pos;
+    private Vector3 target_pos;
     
     // for smooth camera animation
     private float dist;
@@ -25,16 +28,19 @@ public class schieber_manager : MonoBehaviour
     // start schieber measurement, switch camera placement
     public bool start_schieber()
     {
-        if (!is_schieber) return true;
+        if (!is_schieber) return false;
         fine_tuning = true;
         
         // calculate the start and end points of the camera movement
         Bounds bds = GetComponent<Renderer>().bounds;
         og_pos = global_manager.main_cam.transform.position;
-        cam_pos = transform.position + new Vector3(1.005f * bds.size.x, 1.5f * bds.size.y, 0);
+        cam_pos = transform.position + new Vector3(0.8f * bds.size.x, 1.5f * bds.size.y, 0);
         dist = (cam_pos - og_pos).magnitude;
-        
-        return false;
+
+        // record the target position of the object
+        target_pos = transform.position;
+
+        return true;
     }
     
     // stop schieber session and reset the camera
@@ -42,34 +48,74 @@ public class schieber_manager : MonoBehaviour
     {
         if (!fine_tuning) return;
         // re-assign the start and end points of the camera movement
+        transform.position = target_pos;
         var tmp = og_pos;
         og_pos = cam_pos;
         cam_pos = tmp;
-        
+
         // set the ending animation marker
         ending = true;
     }
 
+    // give the min bound of the mouse drag in puzzle
+    public Vector3 min_bound()
+    {
+        Bounds bds = GetComponent<Renderer>().bounds;
+        return new Vector3(
+            target_pos.x - bds.size.x * 5f,
+            target_pos.y - bds.size.y * 5f,
+            target_pos.z - bds.size.z * 5f
+        );
+    }
+
+    // give the max bound of the mouse drag in puzzle
+    public Vector3 max_bound()
+    {
+        Bounds bds = GetComponent<Renderer>().bounds;
+        return new Vector3(
+            target_pos.x + bds.size.x * 5f,
+            target_pos.y + bds.size.y * 5f,
+            target_pos.z + bds.size.z * 5f
+        );
+    }
+
+    // check if schiber puzzle is complete
+    public bool check_target()
+    {
+        if ((target_pos - transform.position).magnitude < 0.1f)
+        {
+            transform.position = target_pos;
+            return true;
+        }
+        return false;
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (fine_tuning)
         {
-            float frac = (global_manager.main_cam.transform.position - og_pos).magnitude / dist;
-
-            // smooth the animation using shrinking steps
-            float _step = 0.1f;
-            float step = Mathf.Max(_step*0.1f, _step * (1f - frac));
-            
-            global_manager.main_cam.transform.position = Vector3.Lerp(og_pos, cam_pos, frac + step);
-            global_manager.main_cam.transform.LookAt(transform);
-
-            if (ending && global_manager.main_cam.transform.position == cam_pos)
+            /** CAMERA CHANGE **/
+            if (global_manager.main_cam.transform.position == cam_pos)
             {
-                ending = false;
-                fine_tuning = false;
+                transition = false;
+                if (ending)
+                {
+                    ending = false;
+                    fine_tuning = false;
+                }
+            } else {
+                float frac = (global_manager.main_cam.transform.position - og_pos).magnitude / dist;
+
+                // smooth the animation using shrinking steps
+                float _step = 0.1f;
+                float step = Mathf.Max(_step * 0.1f, _step * (1f - frac));
+
+                global_manager.main_cam.transform.position = Vector3.Lerp(og_pos, cam_pos, frac + step);
+                global_manager.main_cam.transform.LookAt(target_pos);
+
             }
+
         }
     }
     
