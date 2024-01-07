@@ -191,8 +191,8 @@ public sealed class sticky_manager : MonoBehaviour
         sticky_bounds["SGSX60C000000004-圆螺母"]["SFC-26V"].AddRange(new float[] { 1.000002f, -0.405973f - 3*1.767344f, -0.3929593f - 3*1.767344f, 2.937499f, 7*1.767344f, 7*1.767344f });
         sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["面板螺母固定块"].AddRange(new float[] { 0.07297214f, -0.5963218f - 3 * 2.191667f, -0.9945007f - 3 * 2.99999f, 0.1432665f, 2.191667f * 7, 2.99999f * 7 });
         sticky_bounds["SGSX060CM00670015-GSX60C丝杆"]["628-6轴承"].AddRange(new float[] { 0f, 0.3883308f - 3 * 0.25f, 0.3909872f - 3 * 0.2142864f, 0.02432665f, 0.25f * 7, 0.2142864f * 7 });
-        sticky_bounds["AGETE13-295-25 米思米导轨高度垫块_0"]["导轨MR12MN"].AddRange(new float[] { -0.0001975237f - 3*1f, 0.9999999f, -0.008544921f - 3*1f, 1f * 7, 0.3f, 1f*7 });
-        sticky_bounds["AGETE13-295-25 米思米导轨高度垫块_1"]["导轨MR12MN"].AddRange(new float[] { -0.0001975237f - 3*1f, 0.9999999f, -0.008544921f - 3*1f, 1f*7, 0.3f, 1f *7});
+        sticky_bounds["AGETE13-295-25 米思米导轨高度垫块_0"]["导轨MR12MN"].AddRange(new float[] { -2.773737E-05f - 3*1f, 0.9999999f, -0.0002161662f - 3*1f, 1f * 7, 0.3f, 1f*7 });
+        sticky_bounds["AGETE13-295-25 米思米导轨高度垫块_1"]["导轨MR12MN"].AddRange(new float[] { -2.773737E-05f - 3*1f, 0.9999999f, -0.0002161662f - 3*1f, 1f*7, 0.3f, 1f *7});
         sticky_bounds["导轨MR12MN_0"]["MR12MN滑块"].AddRange(new float[] { 0.07455705f, 0.3966967f - 3 * 1.333333f, -0.6375248f - 3*2.25f, 0.1220339f, 7 * 1.333333f, 7*2.25f });
         sticky_bounds["导轨MR12MN_1"]["MR12MN滑块"].AddRange(new float[] { 0.07455705f, 0.3966967f - 3 * 1.333333f, -0.6375248f - 3*2.25f, 0.1220339f, 7 * 1.333333f, 7*2.25f });
         sticky_bounds["MR12MN滑块_1"]["丝杆结构面板"].AddRange(new float[] { -0.2622162f, 1f, -0.1252464f, 1.527778f, 1.200002f, 5.370371f });

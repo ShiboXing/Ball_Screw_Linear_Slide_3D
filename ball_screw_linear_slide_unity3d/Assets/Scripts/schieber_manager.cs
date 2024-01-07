@@ -98,7 +98,6 @@ public class schieber_manager : MonoBehaviour
             /** CAMERA CHANGE **/
             if (global_manager.main_cam.transform.position == cam_pos)
             {
-                transition = false;
                 if (ending)
                 {
                     ending = false;
