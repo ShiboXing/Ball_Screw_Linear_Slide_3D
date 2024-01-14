@@ -14,6 +14,7 @@ public class schieber_manager : MonoBehaviour
     private Vector3 target_pos;
     private GameObject schiene; // = "schiene";
     private GameObject schieber;
+    private Vector3 schiene_pos;
     private Bounds obj_bds;
     //private GameObject schieber; // = "schieber";
 
@@ -26,9 +27,12 @@ public class schieber_manager : MonoBehaviour
         if (name != "导轨MR12MN") 
             return;
         is_schieber = true;
-        schiene = GameObject.Find("schiene");
         obj_bds = gameObject.GetComponent<Renderer>().bounds;
+
+        // create and assign the schiber object
+        schiene = GameObject.Find("schiene");
         schieber = schiene.transform.Find("schieber").gameObject;
+        schiene_pos = schiene.transform.position;
 
         return;
     }
@@ -48,6 +52,7 @@ public class schieber_manager : MonoBehaviour
         // record the target position of the object
         target_pos = transform.position;
 
+
         return true;
     }
     
@@ -55,6 +60,7 @@ public class schieber_manager : MonoBehaviour
     public void end_schiber()
     {
         if (!fine_tuning) return;
+
         // re-assign the start and end points of the camera movement
         transform.position = target_pos;
         var tmp = og_pos;
@@ -63,6 +69,9 @@ public class schieber_manager : MonoBehaviour
 
         // set the ending animation marker
         ending = true;
+
+        // destroy the schieber object
+        schiene.transform.position = schiene_pos;
     }
 
     // fit the schiber near the obj
@@ -73,12 +82,13 @@ public class schieber_manager : MonoBehaviour
             obj_bds.max.x - obj_bds.size.x*0.16f, 
             transform.position.y + obj_bds.extents.y,
             target_pos.z - obj_bds.extents.z
-        ); 
-        //schieber.transform.position = new Vector3(
-        //    obj_bds.max.x - obj_bds.size.x * 0.16f,
-        //    target_pos.y + obj_bds.size.y,
-        //    target_pos.z + obj_bds.size.z
-        //);
+        );
+
+        schieber.transform.position = new Vector3(
+            obj_bds.max.x - obj_bds.size.x * 0.16f,
+            transform.position.y + obj_bds.extents.y,
+            transform.position.z + obj_bds.extents.z
+        );
 
     }
 
