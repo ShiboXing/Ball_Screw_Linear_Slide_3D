@@ -31,8 +31,8 @@ public class schieber_manager : MonoBehaviour
         obj_bds = gameObject.GetComponent<Renderer>().bounds;
 
         // create and assign the schiber object
-        schiene = GameObject.Find("schiene");
-        schieber = schiene.transform.Find("schieber").gameObject;
+        schiene = GameObject.Find("schiene_wrapper");
+        schieber = schiene.transform.Find("schieber_wrapper").gameObject;
         schiene_pos_copy = schiene.transform.position;
         schiene_rot_copy = schiene.transform.eulerAngles;
 

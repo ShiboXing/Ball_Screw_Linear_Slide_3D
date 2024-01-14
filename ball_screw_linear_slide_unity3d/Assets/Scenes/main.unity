@@ -696,7 +696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 302892608}
   m_Layer: 0
-  m_Name: schiene
+  m_Name: schiene_wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1284,7 +1284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 698723061}
   m_Layer: 0
-  m_Name: schieber
+  m_Name: schieber_wrapper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
