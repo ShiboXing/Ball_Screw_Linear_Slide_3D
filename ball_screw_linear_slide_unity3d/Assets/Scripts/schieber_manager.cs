@@ -14,7 +14,8 @@ public class schieber_manager : MonoBehaviour
     private Vector3 target_pos;
     private GameObject schiene; // = "schiene";
     private GameObject schieber;
-    private Vector3 schiene_pos;
+    private Vector3 schiene_pos_copy;
+    private Vector3 schiene_rot_copy;
     private Bounds obj_bds;
     //private GameObject schieber; // = "schieber";
 
@@ -32,7 +33,8 @@ public class schieber_manager : MonoBehaviour
         // create and assign the schiber object
         schiene = GameObject.Find("schiene");
         schieber = schiene.transform.Find("schieber").gameObject;
-        schiene_pos = schiene.transform.position;
+        schiene_pos_copy = schiene.transform.position;
+        schiene_rot_copy = schiene.transform.eulerAngles;
 
         return;
     }
@@ -71,24 +73,56 @@ public class schieber_manager : MonoBehaviour
         ending = true;
 
         // destroy the schieber object
-        schiene.transform.position = schiene_pos;
+        schiene.transform.position = schiene_pos_copy;
     }
 
     // fit the schiber near the obj
-    public void set_schieber(Vector3 pos)
+    public void set_schieber()
     {
         // align the schiene to the x-edge of the target position
-        schiene.transform.position = new Vector3(
-            obj_bds.max.x - obj_bds.size.x*0.16f, 
-            transform.position.y + obj_bds.extents.y,
-            target_pos.z - obj_bds.extents.z
-        );
-
-        schieber.transform.position = new Vector3(
+        var sc_pos = new Vector3(
             obj_bds.max.x - obj_bds.size.x * 0.16f,
             transform.position.y + obj_bds.extents.y,
-            transform.position.z + obj_bds.extents.z
+            target_pos.z 
         );
+
+        var sb_pos = new Vector3(
+            obj_bds.max.x - obj_bds.size.x * 0.16f,
+            transform.position.y + obj_bds.extents.y,
+            transform.position.z 
+        );
+
+
+        if (transform.position.z >= target_pos.z)
+        {
+            schiene.transform.eulerAngles = new Vector3(
+                schiene_rot_copy.x,
+                schiene_rot_copy.y,
+                schiene_rot_copy.z
+            );
+            schiene.transform.position = new Vector3(
+                sc_pos.x, sc_pos.y, sc_pos.z - obj_bds.extents.z
+            );
+            schieber.transform.position = new Vector3(
+                sb_pos.x, sb_pos.y, sb_pos.z + obj_bds.extents.z
+            );
+        } 
+        else
+        {
+            schiene.transform.eulerAngles = new Vector3(
+                schiene_rot_copy.x, 
+                schiene_rot_copy.y + 180,
+                schiene_rot_copy.z
+            );
+            schiene.transform.position = new Vector3(
+                sc_pos.x, sc_pos.y, sc_pos.z + obj_bds.extents.z
+            );
+            schieber.transform.position = new Vector3(
+                sb_pos.x, sb_pos.y, sb_pos.z - obj_bds.extents.z
+            );
+
+        }
+        
 
     }
 

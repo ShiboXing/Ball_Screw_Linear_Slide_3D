@@ -105,7 +105,7 @@ public void OnBeginDrag(PointerEventData eventData)
                 sticky_obj.GetComponent<Renderer>().material.color = Color.red;
 
             // send obj's position to schieber to set up the ruler
-            sch_man.set_schieber(sticky_obj.position);
+            sch_man.set_schieber();
 
         } else if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~drag_mask)) {
             // re-center the new_obj (counter the offset between Renderer and Collider)
