@@ -97,13 +97,15 @@ public void OnBeginDrag(PointerEventData eventData)
             float z = ray.origin.z + t * ray.direction.normalized.z;
             z = Math.Min(Math.Max(z, sch_man.min_bound().z), sch_man.max_bound().z);
             sticky_obj.position = new Vector3(sticky_obj.position.x, sticky_obj.position.y, z);
-
+            
             // check if the schiber puzzle is solved
             if (sch_man.check_target() && !col_man.check_duplicated())
                 sticky_obj.GetComponent<Renderer>().material.color = Color.green;
             else
                 sticky_obj.GetComponent<Renderer>().material.color = Color.red;
 
+            // send obj's position to schieber to set up the ruler
+            sch_man.set_schieber(sticky_obj.position);
 
         } else if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~drag_mask)) {
             // re-center the new_obj (counter the offset between Renderer and Collider)
