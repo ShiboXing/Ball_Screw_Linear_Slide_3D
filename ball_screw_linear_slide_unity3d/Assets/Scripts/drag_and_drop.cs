@@ -134,7 +134,7 @@ public void OnBeginDrag(PointerEventData eventData)
                 if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name, ref sticky_new_name)
                     && !col_man.check_duplicated()
                     && !sch_man.start_schieber())
-                //|| sticky_obj.name.Contains("丝杆"))
+                    //|| sticky_obj.name.Contains("螺丝"))
                 {
                     sticky_obj.GetComponent<Renderer>().material.color = Color.green;
                 }

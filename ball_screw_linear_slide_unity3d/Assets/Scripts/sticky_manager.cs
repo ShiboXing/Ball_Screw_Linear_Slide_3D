@@ -157,6 +157,10 @@ public sealed class sticky_manager : MonoBehaviour
         {
             "中螺丝"
         };
+        sticky_map["轴承支座"] = new HashSet<string>
+        { 
+            "大螺丝" 
+        };
 
         // instantiate the bound coordinates mapping
         foreach (var kv in sticky_map)
@@ -214,6 +218,8 @@ public sealed class sticky_manager : MonoBehaviour
                                                                         0.6507257f, -0.1775984f - 3*0.5208333f, 0.04080634f, 0.2831822f, 0.5208333f * 7, 0.1517203f,
                                                                         0.6507257f, -0.1775984f - 3*0.5208333f, 0.8172576f, 0.2831822f, 0.5208333f * 7, 0.1517203f,
                                                                         0.1516163f, -0.01759844f - 3*0.5208333f, 0.03761562f, 0.2831822f, 0.5208333f * 7, 0.1517203f,});
+        sticky_bounds["轴承支座"]["大螺丝"].AddRange(new float[] { 0.1476637f, -0.01642845f - 3*0.5208333f, 0.0734965f, 0.7079557f, 0.5208333f * 7, 0.1888075f,
+                                                                 0.1476637f, -0.01642845f - 3*0.5208333f, 0.7627156f, 0.7079557f, 0.5208333f * 7, 0.1888075f,});
         sticky_bounds["SFC-26V"]["中螺丝"].AddRange(new float[] { 0.7390078f, 0.3797785f - 3*0.5746338f, 0.6827561f, 0.2338643f, 7*0.5746338f, 0.2807588f});
 
 
