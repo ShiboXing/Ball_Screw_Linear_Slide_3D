@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.Progress;
 
 [ExecuteAlways]
 public sealed class sticky_manager : MonoBehaviour
@@ -9,8 +12,13 @@ public sealed class sticky_manager : MonoBehaviour
     public static Dictionary<string, Dictionary<string, List<float>>> sticky_bounds;
     // parent obj -> sticky objs
     public static Dictionary<string, HashSet<string>> sticky_map;
+    public static Dictionary<string, Regex> sticky_regex_map;
     // (parent, sticky, index) -> (new sticky name)
     public static Dictionary<string, Dictionary<string, Dictionary<int, string>>> rename_map;
+
+    // UI to indicate that screw doesn't fit
+    private static GameObject _screw_warning;
+    public GameObject screw_warning;
 
     public static bool is_dep(string child, string parent)
     {
@@ -20,56 +28,89 @@ public sealed class sticky_manager : MonoBehaviour
 
     // check if the user has placed the sticky obj in the correct bound
     public static bool in_bound(Transform sticky_trans, Bounds bd, string parent, string child, ref string sticky_new_name)
-    {  
+    {
+        Regex pos_name = null;
+        if (sticky_regex_map.ContainsKey(parent) && sticky_regex_map[parent].IsMatch(child))
+            pos_name = sticky_regex_map[parent];
         // check if the obj is attached to the right parent obj
-        if (!sticky_bounds.ContainsKey(parent) || !sticky_bounds[parent].ContainsKey(child))
+        if (pos_name == null && (!sticky_bounds.ContainsKey(parent) || !sticky_bounds[parent].ContainsKey(child)))
             return false;
-        
-        // get ANSWER BOUNDS and check them one by one
-        var bds = sticky_bounds[parent][child];
-        int interval = 6;
-        for (int i = 0; i < bds.Count; i += interval)
+
+        // get all possible child bounds
+        List<string> chds = new List<string>{ };
+        if (sticky_bounds[parent].ContainsKey(child))
+            chds.Add(child);
+        if (pos_name != null)
         {
+            foreach (string chd in sticky_bounds[parent].Keys) 
+                if (pos_name.IsMatch(chd))
+                    chds.Add(chd);
+        }
 
-            float x_perc = bds[i];
-            float y_perc = bds[i + 1];
-            float z_perc = bds[i + 2];
-            float w_perc = bds[i + 3];
-            float h_perc = bds[i + 4];
-            float l_perc = bds[i + 5];
-
-
-            var x_base = bd.min.x + bd.size.x * x_perc;
-            var y_base = bd.min.y + bd.size.y * y_perc;
-            var z_base = bd.min.z + bd.size.z * z_perc;
-            var w = bd.size.x * w_perc;
-            var h = bd.size.y * h_perc;
-            var l = bd.size.z * l_perc;
-
-            var x_hit = sticky_trans.position.x;
-            var y_hit = sticky_trans.position.y;
-            var z_hit = sticky_trans.position.z;
-
-            // check if the sticky object is IN BOUND
-            if (x_base + w >= x_hit && x_hit >= x_base
-                && y_base + h >= y_hit && y_hit >= y_base
-                && z_base + l >= z_hit && z_hit >= z_base)
+        foreach (string chd in chds)
+        {
+            // get ANSWER BOUNDS and check them one by one
+            var bds = sticky_bounds[parent][chd];
+            int interval = 6;
+            for (int i = 0; i < bds.Count; i += interval)
             {
-                // RE-ADJUST for the OFFSET between the Renderer's BOUND and TRANSFORM
-                var sticky_bds = sticky_trans.gameObject.GetComponent<Renderer>().bounds;
-                var offset = sticky_trans.position - sticky_bds.center;
-                
-                // reset it to the CENTER of the bound
-                var x_mid = x_base + offset.x + w / 2;
-                var y_mid = y_base + offset.y + h / 2;
-                var z_mid = z_base + offset.z + l / 2;
-                sticky_trans.position = new Vector3(x_mid, y_mid, z_mid);
 
-                // STICKY OBJ RENAMING PHASE
-                if (rename_map[parent][sticky_trans.name].ContainsKey(i / interval))
-                    sticky_new_name = rename_map[parent][sticky_trans.name][i / interval];
+                float x_perc = bds[i];
+                float y_perc = bds[i + 1];
+                float z_perc = bds[i + 2];
+                float w_perc = bds[i + 3];
+                float h_perc = bds[i + 4];
+                float l_perc = bds[i + 5];
 
-                return true;
+
+                var x_base = bd.min.x + bd.size.x * x_perc;
+                var y_base = bd.min.y + bd.size.y * y_perc;
+                var z_base = bd.min.z + bd.size.z * z_perc;
+                var w = bd.size.x * w_perc;
+                var h = bd.size.y * h_perc;
+                var l = bd.size.z * l_perc;
+
+                var x_hit = sticky_trans.position.x;
+                var y_hit = sticky_trans.position.y;
+                var z_hit = sticky_trans.position.z;
+
+                // check if the sticky object is IN BOUND
+                if (x_base + w >= x_hit && x_hit >= x_base
+                    && y_base + h >= y_hit && y_hit >= y_base
+                    && z_base + l >= z_hit && z_hit >= z_base)
+                {
+                    // RE-ADJUST for the OFFSET between the Renderer's BOUND and TRANSFORM
+                    var sticky_bds = sticky_trans.gameObject.GetComponent<Renderer>().bounds;
+                    var offset = sticky_trans.position - sticky_bds.center;
+
+                    // reset it to the CENTER of the bound
+                    var x_mid = x_base + offset.x + w / 2;
+                    var y_mid = y_base + offset.y + h / 2;
+                    var z_mid = z_base + offset.z + l / 2;
+                    sticky_trans.position = new Vector3(x_mid, y_mid, z_mid);
+
+                    // check if screw is wrong
+                    if (child != chd)
+                    {
+                        short hole_size = 0;
+                        short screw_size = 0;
+                        if (chd.Contains("中")) hole_size = 1;
+                        else if (chd.Contains("大")) hole_size = 2;
+                        if (child.Contains("中")) screw_size = 1;
+                        else if (child.Contains("大")) screw_size = 2;
+
+                        // warn the user against the screw discrepancy
+                        _screw_warning.transform.position = Input.mousePosition;
+
+
+                        return false;
+                    }
+                    // STICKY OBJ RENAMING PHASE
+                    if (rename_map[parent][child].ContainsKey(i / interval))
+                        sticky_new_name = rename_map[parent][child][i / interval];
+
+                    return true;
+                }
             }
         }
 
@@ -85,11 +126,15 @@ public sealed class sticky_manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // instantiate the dependency map
+        // copy editor assignment to static var
+        _screw_warning = screw_warning;
+
+        // instantiate the dependency mapmap
         sticky_map = new Dictionary<string, HashSet<string>>();
+        sticky_regex_map = new Dictionary<string, Regex>();
         sticky_bounds = new Dictionary<string, Dictionary<string, List<float>>>();
         rename_map = new Dictionary<string, Dictionary<string, Dictionary<int, string>>>();
-
+        
         sticky_map["底板"] = new HashSet<string> { 
             "GSX60C-H0前端座",
             "轴承支座",
@@ -163,7 +208,15 @@ public sealed class sticky_manager : MonoBehaviour
         sticky_map["轴承支座"] = new HashSet<string>
         { 
             "大螺丝" 
-        }; 
+        };
+
+        // checks if screws are attached
+        sticky_regex_map["GSX60C-H0前端座"] = new Regex(".+螺丝.*");
+        sticky_regex_map["电机座"] = new Regex(".+螺丝.*");
+        sticky_regex_map["SGSX60C000000003-轴承端盖"] = new Regex(".+螺丝.*");
+        sticky_regex_map["丝杆结构面板"] = new Regex(".+螺丝.*");
+        sticky_regex_map["SFC-26V"] = new Regex(".+螺丝.*");
+        sticky_regex_map["轴承支座"] = new Regex(".+螺丝.*");
 
         // instantiate the bound coordinates mapping
         foreach (var kv in sticky_map)

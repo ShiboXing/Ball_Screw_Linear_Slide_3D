@@ -121,27 +121,22 @@ public void OnBeginDrag(PointerEventData eventData)
 
             var parent_name = hit.transform.gameObject.name;
 
-            if (!sticky_manager.is_dep(sticky_obj.name, parent_name))
-            {// check if attached to the wrong parent object
-                sticky_obj.GetComponent<Renderer>().material.color = Color.red;
+       
+            // check if sticky obj is in bound of the specified area
+            parent_obj = hit.transform.gameObject;
+            var p_bds = hit.transform.gameObject.GetComponent<Renderer>().bounds;
+            // attached to the correct parent object, check if it's in bound
+            if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name, ref sticky_new_name)
+                && !col_man.check_duplicated()
+                && !sch_man.start_schieber())
+                //|| sticky_obj.name.Contains("螺丝")
+                //|| sticky_obj.name.Contains("面板"))
+            {
+                sticky_obj.GetComponent<Renderer>().material.color = Color.green;
             }
             else
-            {
-                // check if sticky obj is in bound of the specified area
-                parent_obj = hit.transform.gameObject;
-                var p_bds = hit.transform.gameObject.GetComponent<Renderer>().bounds;
-                // attached to the correct parent object, check if it's in bound
-                if (sticky_manager.in_bound(sticky_obj, p_bds, parent_name, sticky_obj.name, ref sticky_new_name)
-                    && !col_man.check_duplicated()
-                    && !sch_man.start_schieber())
-                    //|| sticky_obj.name.Contains("螺丝")
-                    //|| sticky_obj.name.Contains("面板"))
-                {
-                    sticky_obj.GetComponent<Renderer>().material.color = Color.green;
-                }
-                else
-                    sticky_obj.GetComponent<Renderer>().material.color = Color.red;
-            }
+                sticky_obj.GetComponent<Renderer>().material.color = Color.red;
+            
         } else {
             transform.position = eventData.position;
             sticky_obj.transform.position = Vector3.zero;

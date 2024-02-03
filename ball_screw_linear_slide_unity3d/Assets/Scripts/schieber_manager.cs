@@ -54,7 +54,6 @@ public class schieber_manager : MonoBehaviour
         // record the target position of the object
         target_pos = transform.position;
 
-
         return true;
     }
     
