@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 using static UnityEditor.Progress;
 
@@ -100,8 +102,11 @@ public sealed class sticky_manager : MonoBehaviour
                         else if (child.Contains("大")) screw_size = 2;
 
                         // warn the user against the screw discrepancy
+                        TextMeshProUGUI t = _screw_warning.GetComponentInChildren<TextMeshProUGUI>();
+                        //.GetComponent<TextMeshPro>();
+                        if (screw_size > hole_size) t.text= "螺丝过大";
+                        else t.text = "螺丝过小";
                         _screw_warning.transform.position = Input.mousePosition;
-
 
                         return false;
                     }
