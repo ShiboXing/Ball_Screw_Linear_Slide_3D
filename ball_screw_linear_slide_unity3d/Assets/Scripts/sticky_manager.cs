@@ -103,10 +103,14 @@ public sealed class sticky_manager : MonoBehaviour
 
                         // warn the user against the screw discrepancy
                         TextMeshProUGUI t = _screw_warning.GetComponentInChildren<TextMeshProUGUI>();
-                        //.GetComponent<TextMeshPro>();
                         if (screw_size > hole_size) t.text= "螺丝过大";
                         else t.text = "螺丝过小";
                         _screw_warning.transform.position = Input.mousePosition;
+                        
+                        // trigger the fade out animation
+                        warning_manager ws = _screw_warning.GetComponent<warning_manager>();
+                        ws.start_fading();
+                        //(UnityEngine.UI.Image)(_screw_warning).CrossFadeColor(new Color(1f, 1f, 1f, 0f), 2, true, true);
 
                         return false;
                     }

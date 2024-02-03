@@ -159,5 +159,6 @@ public void OnBeginDrag(PointerEventData eventData)
         sticky_obj.gameObject.layer = LayerMask.NameToLayer("Default");
         rdn.material.color = orig_color;
 
+
     }
 }
