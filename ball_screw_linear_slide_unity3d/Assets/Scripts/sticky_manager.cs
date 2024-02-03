@@ -1,11 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 [ExecuteAlways]
 public sealed class sticky_manager : MonoBehaviour

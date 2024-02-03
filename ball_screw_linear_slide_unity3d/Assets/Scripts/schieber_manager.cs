@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net.Sockets;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class schieber_manager : MonoBehaviour
 {
