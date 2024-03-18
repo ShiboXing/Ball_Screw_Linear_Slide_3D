@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.Rendering.UI;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class first_person_control : MonoBehaviour
 {

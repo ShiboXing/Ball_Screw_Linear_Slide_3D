@@ -1,20 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Reflection;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Reflection;
 
 public class item_menu_manager : MonoBehaviour
 {
     public List<GameObject> objs;
     public Transform parentTransform;
-    public MonoScript texture_script;
-    public MonoScript drag_script;
     public float toggle_speed = 10f;
     public float margin = 20;
 
@@ -67,13 +59,16 @@ public class item_menu_manager : MonoBehaviour
             // update the horizontal offset
             img_x_offset += item_width + margin;
 
-            // Attach the 3d obj under the raw image for drag - and - drop instantiating
+            // Attach the 3d obj under the raw image for drag-and-drop instantiating
             var real_obj = Instantiate(objs[i]);
             real_obj.name = name;
-            var drag_script_ins = im.gameObject.AddComponent(drag_script.GetClass());
-            real_obj.AddComponent(typeof(collider_manager));
+            var drag_script_ins = im.gameObject.AddComponent<drag_and_drop>();
             FieldInfo new_obj_field = drag_script_ins.GetType().GetField("sticky_obj_save");
             new_obj_field.SetValue(drag_script_ins, real_obj.transform);
+
+            // attach the managers for drag-n-drop operations
+            real_obj.AddComponent(typeof(collider_manager));
+            real_obj.AddComponent(typeof(schieber_manager));
 
             // get the width of the obj
             var max_bound = Mathf.Max(5f, find_max_bound(objs[i]));
@@ -84,7 +79,7 @@ public class item_menu_manager : MonoBehaviour
             x_offset += max_bound / 2;
 
             // attach the texture script to game object
-            var texture_script_ins = objs[i].AddComponent(texture_script.GetClass());
+            var texture_script_ins = objs[i].AddComponent<build_gyrate_texture>();
             FieldInfo raw_img_field = texture_script_ins.GetType().GetField("raw_img");
             FieldInfo max_bound_field = texture_script_ins.GetType().GetField("max_bound");
             raw_img_field.SetValue(texture_script_ins, im);
