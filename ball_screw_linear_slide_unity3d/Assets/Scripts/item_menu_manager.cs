@@ -95,13 +95,13 @@ public class item_menu_manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!moving && Input.GetKeyDown(KeyCode.Q) && gameObject.transform.localPosition.x + 0.01 < menu_init_x)
+        if (!moving && Input.GetKey(KeyCode.Q) && gameObject.transform.localPosition.x + 0.01 < menu_init_x)
         {
             shift_amt = item_width + margin;
             moving = true;
             moving_left = false;
-        } 
-        else if (!moving && Input.GetKeyDown(KeyCode.E) && imgs[imgs.Count - 1].transform.position.x > Screen.width)
+        }
+        else if (!moving && Input.GetKey(KeyCode.E) && imgs[imgs.Count - 1].transform.position.x > Screen.width)
         {
             shift_amt = item_width + margin;
             moving = true;
