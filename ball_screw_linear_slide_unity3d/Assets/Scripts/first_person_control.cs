@@ -5,16 +5,11 @@ public class first_person_control : MonoBehaviour
 {
     public float speed;
     public float rot_speed;
-    private Vector3 pos;
-    private float x_rot, y_rot, z_rot;
+
     // Start is called before the first frame update
     void Start()
     {
-        pos = gameObject.transform.position;
-        // X, Y axes are inverted 
-        x_rot = transform.eulerAngles.y;
-        y_rot = transform.eulerAngles.x;
-        z_rot = transform.eulerAngles.z;
+
     }
 
     // Update is called once per frame
@@ -32,7 +27,11 @@ public class first_person_control : MonoBehaviour
 
         // rotate when the right mouse is pressed
         if (Input.GetMouseButton(1))
-        {
+        {        
+            // X, Y axes are inverted 
+            var x_rot = transform.eulerAngles.y;
+            var y_rot = transform.eulerAngles.x;
+            var z_rot = transform.eulerAngles.z;
             float mouseX = Input.GetAxis("Mouse X");
             float mouseY = Input.GetAxis("Mouse Y");
             x_rot += mouseX * rot_speed;
